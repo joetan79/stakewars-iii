@@ -10,46 +10,48 @@
 
 Visit https://wallet.shardnet.near.org/ and click “Create account” 
 
-![img](./images/near_wallet_1.png) 
+![img](./images/wallet-1.jpg) 
 
 then reserve your Account ID
 
-![img](./images/near_wallet_2.png)
+![img](./images/wallet-2.jpg)
 
 and choose a security method among available options (Seed Phrase, Ledger, etc).
 
-![img](./images/near_wallet_3.png)
+![img](./images/wallet-3.jpg)
 
-> IMPORTANT! In case of choosing Seed Phrase make sure to write it down and keep in safe place!
+> NOTE!! For Seed Phrase make sure to write it down and keep in the safe place!
 
-After you are done you can log in to the wallet with the chosen method!
+After completed you will log in to the wallet automatically.
 
 ---
 
 
-## Get a server
+## Get a host server
 
 Please see the hardware requirement below:
 
-| Hardware       | Chunk-Only Producer  Specifications                                   |
+| Hardware       | Chunk-Only Producer Server Specifications                             |
 | -------------- | ---------------------------------------------------------------       |
 | CPU            | 4-Core CPU with AVX support                                           |
 | RAM            | 8GB DDR4                                                              |
 | Storage        | 500GB SSD                                                             |
 
-So among those options available on https://www.webtropia.com/en/cloud-vps.html you can pick Cloud VPS S.
+I have choosed AWS EC2 to host the server (https://aws.amazon.com/ec2/) and the deployed specification as below.
 
-![img](./images/webtropia_vps_options_1.png) ![img](./images/webtropia_vps_options_2.png) 
+![img](./images/aws-1.jpg) ![img](./images/aws-2.jpg) 
 
-> This VPS has only 200GB SSD but you can always expand storage in [Webtropia's User Portal](https://zkm.webtropia.com/s/vserver/overview).
+> The EC2 package allow to choose the capacity of the storage.
 
-You can also choose from several operating system options:
+![img](./images/aws-4.jpg)
 
-![img](./images/webtropia_vps_options_3.png)
+> And also it has various choice of operating system options:
 
-> I'd recommend Ubuntu 18.04/20.04 or Debian 10/11 distributions.
+![img](./images/aws-3.jpg)
 
-Once operating system is installed make sure the server is good for StakeWars and run this command in console: 
+> Recommended operating system of Linux will be Ubuntu or Debian. The operating system I have deployed was Ubuntu 22.04.
+
+Once operating system is installed make sure the server is good for StakeWars and run the command below in console: 
 
 ```
 lscpu | grep -P '(?=.*avx )(?=.*sse4.2 )(?=.*cx16 )(?=.*popcnt )' > /dev/null \
@@ -57,7 +59,7 @@ lscpu | grep -P '(?=.*avx )(?=.*sse4.2 )(?=.*cx16 )(?=.*popcnt )' > /dev/null \
   || echo "Not supported"
 ```
 
-If you see this output you should be fine!
+The result below was telling you fine!
 
 ```
  Supported
@@ -69,13 +71,13 @@ If you see this output you should be fine!
 
 In order to communicate with the NEAR blockchain via remote procedure calls (RPC) you should install NEAR-CLI.
 
-Before you start make sure the Linux system is up-to-date:
+Prior start the installation make sure the operating system is up-to-date:
 
 ```
 sudo apt update && sudo apt upgrade -y
 ```
 
-Then install developer tools such as `Node.js` and `npm`:
+Then install developer tools of `Node.js` and `npm`:
 
 ```
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -  
@@ -89,15 +91,15 @@ Check `Node.js` and `npm` versions after:
 node -v
 ```
 
-> Should be v18 or higher.
+> it should be v18.x.x.
 
 ```
 npm -v
 ```
 
-> Should be v8 or higher.
+> it should be v8.x.x.
 
-Now you you are all set and can install NEAR-CLI:
+Now you are all set and continue to install NEAR-CLI:
 
 ```
 sudo npm install -g near-cli
@@ -109,7 +111,7 @@ Then you should set the environment variable to select the correct network:
 export NEAR_ENV=shardnet
 ```
 
-To make it persistent you should do this:
+To keep it persistent we should set it as below:
 
 ```
 echo 'export NEAR_ENV=shardnet' >> ~/.bashrc
@@ -117,18 +119,18 @@ source ~/.bashrc
 ```
 
 
-See below some NEAR-CLI commands' examples for your reference.
+See below some NEAR-CLI example of commands as reference.
 
 ```
 near proposals
 ```
 
-This shows a list of proposals by validators indicating they would like to enter the validator set. For a proposal to be accepted it must meet the minimum seat price. See seat price [here](https://explorer.shardnet.near.org/nodes/validators).
+This shows a list of proposals by validators indicating they would like to enter the validator set. For a proposal to be accepted it must meet the minimum seat price. To see the seat price, please check [here](https://explorer.shardnet.near.org/nodes/validators).
 
 ```
 near validators current
 ```
-This shows a list of validators in the validator set currently, the number of expected and produced blocks and chunks, as well as online rate.
+This shows a list of validators in the validator set currently, the number of expected and produced blocks and chunks, especially the online rate.
 
 ```
 near validators next
@@ -139,13 +141,13 @@ This shows a list of validators with accepted proposals which will enter the val
 
 ## Set up NEAR node
 
-First of all install required developer tools:
+First of all please install required developer tools:
 
 ```
 sudo apt install -y git binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake gcc g++ python docker.io protobuf-compiler libssl-dev pkg-config clang llvm cargo
 ```
 
-Then install Python pip (the package installer for Python) and set the configuration:
+Next, install Python pip (the package installer for Python) and set the configuration:
 
 ```
 sudo apt install python3-pip
@@ -153,26 +155,26 @@ USER_BASE_BIN=$(python3 -m site --user-base)/bin
 export PATH="$USER_BASE_BIN:$PATH"
 ```
 
-You will also have to install building environment:
+Then we have to install building environment:
 
 ```
 sudo apt install clang build-essential make
 ```
 
-Finally install Rust & Cargo:
+Lastly, we install Rust & Cargo:
 
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 > Press 1 when asked during installation
 
-And source the environment at the end:
+And make source the environment:
 
 ```
 source $HOME/.cargo/env
 ```
 
-You are all set! Now it's time to clone `nearcore` repository from GitHub:
+Now it's time for us to clone `nearcore` repository from the GitHub:
 
 ```
 git clone https://github.com/near/nearcore
@@ -182,13 +184,13 @@ git checkout <commit>
 ```
 > You can always find the current version of commit number in [this file](https://github.com/near/stakewars-iii/blob/main/commit.md) 
 
-And compile `nearcore` binary:
+Then compile `nearcore` binary:
 
 ```
 cargo build -p neard --release --features shardnet
 ```
 
-Feel free to take a break because compiling `nearcore` binary can take some time!
+NOTE: compiling `nearcore` binary can take some time, feel free to take some rest.
 
 When it's done you should initialize working directory and get a couple of required configuration files:
 
@@ -196,34 +198,50 @@ When it's done you should initialize working directory and get a couple of requi
 ./target/release/neard --home ~/.near init --chain-id shardnet --download-genesis
 ```
 
-As result you will end up with **config.json**, **node_key.json**, and **genesis.json** in **.near** directory. 
-You should replace **config.json** though with the one having proper "boot_nodes" and "tracked_shards" values.
+This command will create the directory structure and will generate `config.json`, `node_key.json`, and `genesis.json` on the network you have passed. 
 
+- `config.json` - Configuration parameters which are responsive for how the node will work. The config.json contains needed information for a node to run on the network, how to communicate with peers, and how to reach consensus. Although some options are configurable. In general validators have opted to use the default config.json provided.
+
+- `genesis.json` - A file with all the data the network started with at genesis. This contains initial accounts, contracts, access keys, and other records which represents the initial state of the blockchain. The genesis.json file is a snapshot of the network state at a point in time. In contacts accounts, balances, active validators, and other information about the network. 
+
+- `node_key.json` -  A file which contains a public and private key for the node. Also includes an optional `account_id` parameter which is required to run a validator node (not covered in this doc).
+
+- `data/` -  A folder in which a NEAR node will write it's state.
+
+- Replace the `config.json`
+
+From the generated `config.json`, there two parameters to modify:
+- `boot_nodes`: If you had not specify the boot nodes, the generated `config.json` shows an empty array, so we will need to replace it with a full one specifying the boot nodes.
+- `tracked_shards`: In the generated `config.json`, this field is an empty. You will have to replace it to `"tracked_shards": [0]`
 ```
 rm ~/.near/config.json
 wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
 ```
 
-You can start NEAR node simply running the following command:
+Then you can start NEAR node by simply running the following command:
 
 ```
 cd ~/nearcore
 ./target/release/neard --home ~/.near run
 ```
 
-However, in order to keep it running (and restart after a failure) you should set systemd script:
+In the other hand, in order to keep it running you should set systemd script:
 
 ```
-sudo tee <<EOF >/dev/null /etc/systemd/system/neard.service
+sudo vi /etc/systemd/system/neard.service
+```
+paste
+
+```
 [Unit]
 Description=NEARd Daemon Service
 
 [Service]
 Type=simple
-User=<USER_UD>
+User=<USER_PATH>
 #Group=near
-WorkingDirectory=/home/<USER_ID>/.near
-ExecStart=/home/<USER_ID>/nearcore/target/release/neard run
+WorkingDirectory=/home/<USER_PATH>/.near
+ExecStart=/home/<USER_PATH>/nearcore/target/release/neard run
 Restart=on-failure
 RestartSec=30
 KillSignal=SIGINT
@@ -232,22 +250,22 @@ KillMode=mixed
 
 [Install]
 WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reload 
+```
+commands to enable and start the neard
+``` 
 sudo systemctl enable neard
 sudo systemctl start neard
 ```
-> Make sure to update <USER_ID> accordingly
+> Make sure to change <USER_PATH> to your paths.
 
 To see logs for your node you should run:
 
 ```
-journalctl -n 100 -f -u neard
+journalctl -n 100 -f -u neard | ccze -A
 ```
 See below an example of log messages.
 
-![img](./images/log_1.png) 
+![img](./images/log-1.jpg) 
 
 ---
 
