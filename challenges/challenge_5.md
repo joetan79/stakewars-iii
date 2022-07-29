@@ -1,9 +1,9 @@
 # Stake Wars: Episode III. Challenge 005
-* Published on: 2022-07-20
-* Updated on: 2022-07-21
-* Submitted by: evstigneeff
+* Published on: 2022-07-30
+* Updated on: 2022-07-29
+* Submitted by: joetan79
 
-# Setup a running validator node for shardnet on Webtropia cloud provider 
+# Setup a running validator node for shardnet on AWS cloud provider under EC2
 
 
 ## Create a wallet
