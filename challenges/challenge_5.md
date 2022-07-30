@@ -1,6 +1,6 @@
 # Stake Wars: Episode III. Challenge 005
 * Published on: 2022-07-30
-* Updated on: 2022-07-29
+* Updated on: 2022-07-31
 * Submitted by: joetan79
 
 # Setup a running validator node for shardnet on AWS cloud provider under EC2
@@ -328,7 +328,7 @@ where "pool id" is the name of pool you created, "accountId" is your name of Nea
 
 > Note: You should have at least 30 NEAR available on your Near wallet's balance.
 
-After done and you see the output was provided the link fo the transaction, congratulations! You finished the configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
+After done and you see the output was provided the link fo the transaction, CONGRATULATIONS! You completed the configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
 
 Meanwhile, it should also appear in near proposals as below by the command as mentioned above.
 
@@ -369,6 +369,8 @@ near call <staking_pool_id> unstake_all --accountId <accountId> --gas=3000000000
 
 After 2-3 epochs of unstaking you can withdraw from the pool:
 
+> NOTE: Unlike stake command, amount in unstake and withdraw should be in yoctoNEAR.
+
 ```
 near call <staking_pool_id> withdraw '{"amount": "<amount yoctoNEAR>"}' --accountId <accountId> --gas=300000000000000
 ```
@@ -377,8 +379,6 @@ To withdraw all you can run this command:
 ```
 near call <staking_pool_id> withdraw_all --accountId <accountId> --gas=300000000000000
 ```
-
->> NOTE: Unlike stake command, amount in unstake and withdraw should be in yoctoNEAR.
 
 You can check unstaked and available for withdrawal balance of you pool this way:
 
