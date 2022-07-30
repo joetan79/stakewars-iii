@@ -284,7 +284,7 @@ near login
 
 then grant access to NEAR-CLI in opened window
 
-![img](./images/nearlogin-2.jpg) ![img](./images/nerlogin-3.jpg)
+![img](./images/nearlogin-2.jpg) ![img](./images/nearlogin-3.jpg)
 
 and after pressing Enter in the console you should see 'successfully' as below:
 
@@ -328,7 +328,7 @@ where "pool id" is the name of pool you created, "accountId" is your name of Nea
 
 > Note: You should have at least 30 NEAR available on your Near wallet's balance.
 
-After done and you see the output was provided the link fo the transaction, CONGRATULATIONS! You completed the configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
+After done and you see the output was provided the link of the transaction, CONGRATULATIONS! You completed the configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
 
 Meanwhile, it should also appear in near proposals as below by the command as mentioned above.
 
