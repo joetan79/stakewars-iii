@@ -251,12 +251,13 @@ KillMode=mixed
 [Install]
 WantedBy=multi-user.target
 ```
+> Make sure to change <USER_PATH> to your paths.
+
 commands to enable and start the neard
 ``` 
 sudo systemctl enable neard
 sudo systemctl start neard
 ```
-> Make sure to change <USER_PATH> to your paths.
 
 To see logs for your node you should run:
 
@@ -277,7 +278,7 @@ You should run the following command to install full access key locally to sign 
 near login
 ```
 
-If you have GUI on the server then a web browser is going to open up. Otherwise, just copy link from the ouput to your browser
+> Note: This command launches a web browser allowing for the authorization of a full access key to be copied locally. Otherwise just copy the link below to your browser.
 
 ![img](./images/near_login_1.png) 
 
@@ -285,11 +286,11 @@ then grant access to NEAR-CLI in opened window
 
 ![img](./images/grant_access_1.png) ![img](./images/grant_access_2.png)
 
-and after pressing Enter in the console you should get something like that.
+and after pressing Enter in the console you should see this.
 
 ![img](./images/near_login_2.png)
 
-You would need another configuration file **(validator_key.json)** so go ahead and create it!
+You need another configuration file **(validator_key.json)** by follow to create it.
 
 ```
 near generate-key <pool_id>
@@ -303,21 +304,21 @@ cp ~/.near-credentials/shardnet/pool_id.json ~/.near/validator_key.json
 ```
 
 Make the following changes in validator_key.json file:
-* Set "xx.factory.shardnet.near" value (where xx is your pool name) to "account_id"
+* Set "xxxx.factory.shardnet.near" value (where xxxx is your pool name) to "account_id"
 * Change "private_key" to "secret_key"
 
-> Note: The account_id must match the staking pool contract's name you will create further!
+> Note: The account_id must match the staking pool contract's name you will create.
 
 File content should look like that at the end:
 ```
 {
-  "account_id": "xx.factory.shardnet.near",
+  "account_id": "xxxx.factory.shardnet.near",
   "public_key": "ed25519:****",
   "secret_key": "ed25519:****"
 }
 ```
 
-Now proceed with deploying staking pool and integrating it into a previously created node. In order to do this you should run:
+Now continue with deploying staking pool and integrating it into the created node before. In order to do this you should run:
 
 ```
 near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "<pool id>", "owner_id": "<accountId>", "stake_public_key": "<public key>", "reward_fee_fraction": {"numerator": 5, "denominator": 100}, "code_hash":"DD428g9eqLL8fWUxv8QSpVFzyHi1Qd16P8ephYCTmMSZ"}' --accountId="<accountId>" --amount=30 --gas=300000000000000
@@ -327,7 +328,7 @@ where "pool id" is the name of pool you created, "accountId" is your Near wallet
 
 > Note: You should have at least 30 NEAR available on your Near wallet's balance.
 
-You would wanna see something like that as a result.
+You will see the result as below.
 
 ![img](./images/pool_create_1.png)
 
@@ -412,7 +413,7 @@ near call <staking_pool_id> resume_staking '{}' --accountId <accountId>
 
 ## Set up regular ping
 
-In order to stay in the validator set you should peridically ping staking pool conract. Ping issues a new proposal and updates the staking balances and should happen at least once at epoch.
+In order to stay in the validator set you should peridically ping staking pool contract. Ping issues a new proposal and updates the staking balances.
 
 You can do this manually:
 
@@ -429,7 +430,7 @@ Create **ping.sh** file in **/home/<USER_ID>/scripts/** directory with the follo
 # Ping call to renew Proposal added to crontab
 
 export NEAR_ENV=shardnet
-export LOGS=/home/<USER_ID>/logs
+export LOGS=/home/<USER_PATH>/logs
 export POOLID=<YOUR_POOL_ID>
 export ACCOUNTID=<YOUR_ACCOUNT_ID>
 
@@ -442,7 +443,7 @@ near validators next | grep $POOLID >> $LOGS/all.log
 EOF
 ```
 
-> Make sure to replace <USER_ID>, <YOUR_POOL_ID> and <YOUR_ACCOUNT_ID> accordingly.
+> Make sure to replace <USER_PATH>, <YOUR_POOL_ID> and <YOUR_ACCOUNT_ID> accordingly.
 
 And then create crontab job which is going to be running that script:
 
@@ -463,9 +464,12 @@ and see log messages too:
 cat home/<USER_ID>/logs/all.log
 ```
 
-as well as transactions in Recent Activity of Near wallet.
+in the meantime, you can see all transactions in Recent Activity of Near wallet.
 
-![img](./images/ping_1.png)
+![img](./images/ping-1.jpg)
+
+or check it all in the explorer by click inside the 'View All' in the Near wallet.
+
+![img](./images/ping-2.jpg)
 
 ---
-
