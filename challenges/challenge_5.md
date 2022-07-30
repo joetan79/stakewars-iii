@@ -413,7 +413,7 @@ near call <staking_pool_id> resume_staking '{}' --accountId <accountId>
 
 ## Set up regular ping
 
-In order to stay in the validator set you should peridically ping staking pool contract. Ping issues a new proposal and updates the staking balances.
+In order to stay in the validator set you should ping to network.
 
 You can do this manually:
 
@@ -421,9 +421,9 @@ You can do this manually:
 near call <staking_pool_id> ping '{}' --accountId <accountId> --gas=300000000000000
 ```
 
-Alternatively, you can set up cron job to automate the process.
+However, alternatively, you can set up cron job to automate the process periodically.
 
-Create **ping.sh** file in **/home/<USER_ID>/scripts/** directory with the following content:
+Create **ping.sh** file in **/home/<USER_PATH>/scripts/** directory with the following content:
 
 ```
 #!/bin/sh
@@ -445,11 +445,11 @@ EOF
 
 > Make sure to replace <USER_PATH>, <YOUR_POOL_ID> and <YOUR_ACCOUNT_ID> accordingly.
 
-And then create crontab job which is going to be running that script:
+And then create crontab job by scheduling to run the script:(example below was 5 min)
 
 ```
 crontab -e
-*/5 * * * * sh /home/<USER_ID>/scripts/ping.sh
+*/5 * * * * sh /home/<USER_PATH>/scripts/ping.sh
 ```
 
 You can check if job was created by reviewing a user's crontab:
@@ -461,7 +461,7 @@ crontab -l
 and see log messages too:
 
 ```
-cat home/<USER_ID>/logs/all.log
+cat home/<USER_PATH>/logs/all.log
 ```
 
 in the meantime, you can see all transactions in Recent Activity of Near wallet.
