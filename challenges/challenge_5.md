@@ -8,7 +8,7 @@
 
 ## Create a wallet
 
-Visit https://wallet.shardnet.near.org/ and click “Create account” 
+Please visit https://wallet.shardnet.near.org/ and click “Create account” 
 
 ![img](./images/wallet-1.jpg) 
 
@@ -208,7 +208,7 @@ This command will create the directory structure and will generate `config.json`
 
 - `data/` -  A folder in which a NEAR node will write it's state.
 
-- Replace the `config.json`
+##### Replace the `config.json`
 
 From the generated `config.json`, there two parameters to modify:
 - `boot_nodes`: If you had not specify the boot nodes, the generated `config.json` shows an empty array, so we will need to replace it with a full one specifying the boot nodes.
@@ -278,24 +278,24 @@ You should run the following command to install full access key locally to sign 
 near login
 ```
 
-> Note: This command launches a web browser allowing for the authorization of a full access key to be copied locally. Otherwise just copy the link below to your browser.
+> Note: This command launches a web browser allowing for the authorization of a full access key to be copied locally. If not you may copy the link below to your browser.
 
-![img](./images/near_login_1.png) 
+![img](./images/nearlogin-1.jpg) 
 
 then grant access to NEAR-CLI in opened window
 
-![img](./images/grant_access_1.png) ![img](./images/grant_access_2.png)
+![img](./images/nearlogin-2.jpg) ![img](./images/nerlogin-3.jpg)
 
-and after pressing Enter in the console you should see this.
+and after pressing Enter in the console you should see 'successfully' as below:
 
-![img](./images/near_login_2.png)
+![img](./images/nearlogin-4.jpg)
 
-You need another configuration file **(validator_key.json)** by follow to create it.
+We need another configuration file **(validator_key.json)** by follow to create it.
 
 ```
 near generate-key <pool_id>
 ```
-> Feel free to replace pool_id with the pool name of your choice.
+> Replace pool_id with the pool name of your choice.
 
 Then copy the generated key file to the validator directory:
 
@@ -307,7 +307,7 @@ Make the following changes in validator_key.json file:
 * Set "xxxx.factory.shardnet.near" value (where xxxx is your pool name) to "account_id"
 * Change "private_key" to "secret_key"
 
-> Note: The account_id must match the staking pool contract's name you will create.
+> Note: The account_id must match the contract's name of staking pool which will create.
 
 File content should look like that at the end:
 ```
@@ -324,22 +324,18 @@ Now continue with deploying staking pool and integrating it into the created nod
 near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "<pool id>", "owner_id": "<accountId>", "stake_public_key": "<public key>", "reward_fee_fraction": {"numerator": 5, "denominator": 100}, "code_hash":"DD428g9eqLL8fWUxv8QSpVFzyHi1Qd16P8ephYCTmMSZ"}' --accountId="<accountId>" --amount=30 --gas=300000000000000
 ```
 
-where "pool id" is the name of pool you created, "accountId" is your Near wallet name and "public key" can be found in **validator_key.json** file stored in **.near** directory.
+where "pool id" is the name of pool you created, "accountId" is your name of Near wallet and "public key" can be found in **validator_key.json** file stored in **.near** directory. Besides, "5" The fee the pool will charge (e.g. in this case 5 over 100 is 5% of fees).
 
 > Note: You should have at least 30 NEAR available on your Near wallet's balance.
 
-You will see the result as below.
+After done and you see the output was provided the link fo the transaction, congratulations! You finished the configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
 
-![img](./images/pool_create_1.png)
+Meanwhile, it should also appear in near proposals as below by the command as mentioned above.
 
-Congratulations! You finished a configuration of your staking pool so should be able to see it [the list of validators](https://explorer.shardnet.near.org/nodes/validators).
-
-It should also appear in near proposals. 
-
-![img](./images/near_proposals_1.png)
+![img](./images/proposals.jpg)
 
 
-Last but not least you should top up the balance of your pool to meet the minimum seat price (check it [here](https://explorer.shardnet.near.org/nodes/validators)).
+Last but not least, you should top up the staking balance of your pool to meet the minimum seat price (please check it [here](https://explorer.shardnet.near.org/nodes/validators)).
 
 ```
 near call <staking_pool_id> deposit_and_stake --amount <amount> --accountId <accountId> --gas=300000000000000
@@ -371,18 +367,18 @@ near call <staking_pool_id> unstake_all --accountId <accountId> --gas=3000000000
 
 ##### Withdraw
 
-After 2-3 epochs after unstaking you can withdraw from the pool:
+After 2-3 epochs of unstaking you can withdraw from the pool:
 
 ```
 near call <staking_pool_id> withdraw '{"amount": "<amount yoctoNEAR>"}' --accountId <accountId> --gas=300000000000000
 ```
 
-To withdraw all you can run this command instead:
+To withdraw all you can run this command:
 ```
 near call <staking_pool_id> withdraw_all --accountId <accountId> --gas=300000000000000
 ```
 
-> Unlike stake command amount in unstake and withdraw ones should be in yoctoNEAR (1 NEAR = 100,000,000 yoctoNEAR).
+>> NOTE: Unlike stake command, amount in unstake and withdraw should be in yoctoNEAR.
 
 You can check unstaked and available for withdrawal balance of you pool this way:
 
@@ -397,13 +393,13 @@ near view <staking_pool_id> is_account_unstaked_balance_available '{"account_id"
 ```
 > It should be unlocked for you to be able to withdraw funds.
 
-It's worth also mentioning that it's possible to pause staking:
+If you would like to pause staking:
 
 ```
 near call <staking_pool_id> pause_staking '{}' --accountId <accountId>
 ```
 
-and resume it later:
+or resume staking:
 
 ```
 near call <staking_pool_id> resume_staking '{}' --accountId <accountId>
